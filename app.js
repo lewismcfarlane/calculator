@@ -46,7 +46,7 @@ const numberModButtons = document.querySelectorAll('.calculatorButton.numberMod'
 
 // Function to update userInputDisplay with the provided value
 const updateUserInputDisplay = (value) => {
-	userInputDisplay.textContent = parseFloat(value);
+	userInputDisplay.textContent = value;
 	// console.log(parseFloat(value));
 };
 
@@ -55,7 +55,8 @@ numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		// Get the button value
 		const buttonValue = button.textContent;
-        console.log(`${buttonValue}`);
+        console.log(`Numeric value clicked: ${buttonValue}`);
+
 
 		// Handle different cases based on the button value
 		switch (buttonValue) {
@@ -75,18 +76,23 @@ numberModButtons.forEach(button => {
 			// 	}
 			// 	break;
 
-			case '.':
-				// Append decimal point if not already present
-				if (!userInputDisplay.textContent.includes('.')) {
-					updateUserInputDisplay(userInputDisplay.textContent + '.');
-				}
-				break;
+            case '.':
+                // Append decimal point if not already present
+                if (userInputDisplay.textContent === '' || userInputDisplay.textContent === '.') {
+                    updateUserInputDisplay('0.');
+                } else if (!userInputDisplay.textContent.includes('.')) {
+                    updateUserInputDisplay(userInputDisplay.textContent + '.');
+                }
+                break;
+            
 
             default:
                 updateUserInputDisplay(userInputDisplay.textContent + buttonValue);
                 break;
                   
 		}
+
+        console.log(firstInput = parseFloat(userInputDisplay.textContent))
 	});
 });
 
@@ -94,13 +100,17 @@ numberModButtons.forEach(button => {
 // 	button.addEventListener('click', () => {
 // 		// Handle click event for operator buttons
 // 		console.log('Operator Clicked:', button.textContent);
+//         // Get the button value
+//         const buttonValue = button.textContent;
+        
+
 
 //         if (operatorClicked) {
 //             firstInput = parseFloat(userInputDisplay.textContent);
 //             operatorClicked = false;
             
 //         }
-
+//         updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
 //         operatorClicked = true;
 
         
