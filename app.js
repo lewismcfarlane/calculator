@@ -117,3 +117,12 @@ numberModButtons.forEach(button => {
 // 	});
 //     console.log(firstInput);
 // });
+
+// Clear button functionality resets display and holding variables and flags
+clearButton.addEventListener('click', () => {
+    firstInput = '';
+    secondInput = '';
+    operator = '';
+    operatorClicked = false;
+    updateUserInputDisplay('');
+});
