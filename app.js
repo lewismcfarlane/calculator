@@ -23,6 +23,7 @@ let firstInput = '';
 let secondInput = '';
 let operator = '';
 let operatorClicked = false;
+let inputsArray = [];
 
 // DOM elements
 const calculationDisplay = document.getElementById('calculationDisplay');
@@ -50,12 +51,16 @@ const updateUserInputDisplay = (value) => {
 	// console.log(parseFloat(value));
 };
 
+const updateCalculationDisplay = (value) => {
+    calculationDisplay.textContent = value;
+}
+
 
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		// Get the button value
 		const buttonValue = button.textContent;
-        console.log(`Numeric value clicked: ${buttonValue}`);
+		console.log(`Numeric value clicked: ${buttonValue}`);
 
 
 		// Handle different cases based on the button value
@@ -63,36 +68,40 @@ numberModButtons.forEach(button => {
 			case '+/-':
 				// Toggle positive/negative
 				if (userInputDisplay.textContent !== '') {
-					const currentValue = parseFloat(userInputDisplay.textContent);                    
+					const currentValue = parseFloat(userInputDisplay.textContent);
 				}
 				break;
 
-            case '.':
-                // Append decimal point if not already present
-                if (userInputDisplay.textContent === '' || userInputDisplay.textContent === '.') {
-                    updateUserInputDisplay('0.');
-                } else if (!userInputDisplay.textContent.includes('.')) {
-                    updateUserInputDisplay(userInputDisplay.textContent + '.');
-                }
-                break;
-            
+			case '.':
+				// Append decimal point if not already present
+				if (userInputDisplay.textContent === '') {
+					updateUserInputDisplay('0.');
+				} else if (!userInputDisplay.textContent.includes('.')) {
+					updateUserInputDisplay(userInputDisplay.textContent + '.');
+				}
+				break;
 
-            default:
-                updateUserInputDisplay(userInputDisplay.textContent + buttonValue);
-                break;
-                  
+
+			default:
+				updateUserInputDisplay(userInputDisplay.textContent + buttonValue);
+
+				break;
+
 		}
-        
-        // Check if an operator has been clicked
-        if (operatorClicked) {
-            // If yes, update secondInput
-            secondInput += buttonValue;
-            updateUserInputDisplay(secondInput);
-        } else {
-            // If no operator has been clicked, update firstInput
-            firstInput += buttonValue;
-            updateUserInputDisplay(firstInput);
-        }
+
+		inputsArray = [userInputDisplay.textContent];
+
+		// Check if an operator has been clicked
+		if (operatorClicked) {
+			// If yes, update secondInput
+
+			secondInput += buttonValue;
+			// updateUserInputDisplay(secondInput);
+		} else {
+			// If no operator has been clicked, update firstInput
+			firstInput += buttonValue;
+			// updateUserInputDisplay(firstInput);
+		}
 	});
 });
 
@@ -100,24 +109,27 @@ operatorButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		// Handle click event for operator buttons
 		console.log('Operator Clicked:', button.textContent);
-        // Get the button value
-        const buttonValue = button.textContent;
-        
+		// Get the button value
+		const buttonValue = button.textContent;
 
 
-        if (operatorClicked) {
-            firstInput = parseFloat(userInputDisplay.textContent);
-            operatorClicked = false;
-            
-        }
-       
-        
-        updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
-        operatorClicked = true;
 
-        switch (buttonValue) {
+		if (operatorClicked) {
+			firstInput = parseFloat(userInputDisplay.textContent);
+			operatorClicked = false;
+
+		}
+
+
+		updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
+		operatorClicked = true;
+
+		switch (buttonValue) {
 			case '/':
-                operator = '/';
+			case '+':
+			case '-':
+			case 'x':
+				operator = buttonValue;
 				break;
 
 			case '%':
@@ -128,35 +140,61 @@ operatorButtons.forEach(button => {
 				}
 				break;
 
-            case '+':
-                operator = '+'
-                
-                break;
 
-            case '-':
-                operator = '-';
-                break;
-            
-            case 'x':
-                
-                operator = 'x'
-                break;
 
-            
 
-                  
 		}
+		inputsArray = [userInputDisplay.textContent];
 
-        
 	});
-    console.log(firstInput);
+	console.log(firstInput);
 });
 
 // Clear button functionality resets display and holding variables and flags
 clearButton.addEventListener('click', () => {
-    firstInput = '';
-    secondInput = '';
-    operator = '';
-    operatorClicked = false;
-    updateUserInputDisplay('');
+	firstInput = '';
+	secondInput = '';
+	operator = '';
+	operatorClicked = false;
+	updateUserInputDisplay('');
+    updateCalculationDisplay('');
+});
+
+equalsButton.addEventListener('click', () => {
+	// Split the expression into firstInput, operator, and secondInput
+	const [firstInputStr, operatorStr, secondInputStr] = inputsArray[0].split(/\s+/);
+	firstInput = parseFloat(firstInputStr);
+	operator = operatorStr;
+	secondInput = parseFloat(secondInputStr);
+
+	// Perform the calculation based on the operator
+	let result;
+	switch (operator) {
+		case '+':
+			result = additionOperation(firstInput, secondInput);
+			break;
+		case '-':
+			result = subtractionOperation(firstInput, secondInput);
+			break;
+		case '/':
+			result = divisionOperation(firstInput, secondInput);
+			break;
+		case 'x':
+			result = multiplicationOperation(firstInput, secondInput);
+			break;
+			// Add cases for other operators if needed
+
+		default:
+			result = NaN; // Invalid operator
+	}
+
+	// Display the result
+	updateCalculationDisplay(result);
+
+	// Reset variables
+	firstInput = result;
+	secondInput = '';
+	operator = '';
+	operatorClicked = false;
+	inputsArray = [];
 });
