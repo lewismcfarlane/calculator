@@ -19,11 +19,16 @@ const multiplicationOperation = (a, b) => {
 // const DIVIDE = '/';
 // const MULTIPLY = '*';
 
-let firstInput = '';
-let secondInput = '';
-let operator = '';
+let firstInput = [];
+let secondInput = [];
+let operator = [];
 let operatorClicked = false;
-let inputsArray = [];
+let inputsArray = [firstInput, operator, secondInput];
+
+let previousFirstInput = [];
+let previousSecondInput = [];
+let previousOperator = [];
+let lastCalc = []
 
 // DOM elements
 const calculationDisplay = document.getElementById('calculationDisplay');
@@ -38,6 +43,30 @@ const additionButton = document.getElementById('additionButton');
 const numberButtons = document.querySelectorAll('.calculatorButton:not(#clearButton):not(#togglePositiveNegativeButton):not(#percentageButton):not(#divisionButton):not(#multiplicationButton):not(#subtractionButton):not(#additionButton):not(#equalsButton):not(#decimalButton)');
 const decimalButton = document.getElementById('decimalButton');
 const equalsButton = document.getElementById('equalsButton');
+
+//DEBUG DOM
+let debug = () => {
+console.log(`
+firstInput = ${firstInput.join('')}
+secondInput = ${secondInput.join('')}
+inputsArray = ${inputsArray.join('')}
+operator = ${operator}
+operatorClicked = ${operatorClicked}`)
+}
+
+let clearCalculator = () => {
+    firstInput = [];
+	secondInput = [];
+	operator = [];
+	operatorClicked = false;
+    inputsArray = [firstInput, operator, secondInput];
+	updateUserInputDisplay('');
+	updateCalculationDisplay('');
+    debug();
+}
+
+
+
 
 // Event listeners for operator buttons
 const operatorButtons = document.querySelectorAll('.operator');
@@ -55,25 +84,64 @@ const updateCalculationDisplay = (value) => {
 	calculationDisplay.textContent = value;
 }
 
+const performCalculation = () => {
+    let a = parseFloat(firstInput.join(''));
+    let b = parseFloat(secondInput.join(''));
+    operator = operator.join('');
+    if (secondInput.length === 0 ) {
+        firstInput = firstInput.join('');
+        result = firstInput;
+    }
+	switch (operator) {
+		case '+':
+			result = additionOperation(a, b);
+			break;
+		case '-':
+			result = subtractionOperation(a, b);
+			break;
+		case '/':
+			result = divisionOperation(a, b);
+			break;
+		case 'x':
+			result = multiplicationOperation(a, b);
+			break;
+			
+
+		default:
+			result = firstInput; // Invalid operator
+	}
+    if (Number.isInteger(result)) {
+        updateCalculationDisplay(result);
+    } else if (!Number.isInteger(result)) {
+        result = result.toFixed(2);
+        updateCalculationDisplay(result);
+    }
+	
+    firstInput = [result];
+	secondInput = [];
+	operator = [];
+	inputsArray = [firstInput, operator, secondInput];
+
+}
+
 
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		// Get the button value
+        
 		const buttonValue = button.textContent;
-		console.log(`Numeric value clicked: ${buttonValue}`);
-
-
-
-
-		if (result !== null && operator == '') {
-			userInputDisplay.textContent = buttonValue;
+		if (result !== null && operator.length == []) {
+            firstInput = [];
 			calculationDisplay.textContent = '';
 			result = null;
-			firstInput = '';
-			secondInput = '';
-			operator = '';
+			firstInput.push(buttonValue);
+			secondInput = [];
+			operator = [];
 			operatorClicked = false;
-			inputsArray = [];
+			inputsArray = [firstInput, operator, secondInput];
+            userInputDisplay.textContent = firstInput.join('');
+            
+            
 		} else {
 			// Handle different cases based on the button value
 			switch (buttonValue) {
@@ -85,135 +153,118 @@ numberModButtons.forEach(button => {
 						updateUserInputDisplay(userInputDisplay.textContent + '.');
 					}
 					break;
-
-
 				default:
-					updateUserInputDisplay(userInputDisplay.textContent + buttonValue);
-
+					// updateUserInputDisplay(inputsArray.join(' ') + buttonValue);
 					break;
-
 			}
-
-			inputsArray = [userInputDisplay.textContent];
-
+			
 			// Check if an operator has been clicked
 			if (operatorClicked) {
-				// If yes, update secondInput
+			
 
-				secondInput += buttonValue;
-				// updateUserInputDisplay(secondInput);
+				secondInput.push([buttonValue]);
+                displayUserCalculation();
+				// updateUserInputDisplay(`${firstInput.join('')} ${operator} ${secondInput.join('')}`);
+			} else if (result === null) {
+				
+				firstInput.push(buttonValue);
+                displayUserCalculation();
+				// updateUserInputDisplay(firstInput.join(''));
 			} else {
-				// If no operator has been clicked, update firstInput
-				firstInput += buttonValue;
-				// updateUserInputDisplay(firstInput);
-			}
+                clearCalculator();
+                firstInput.push(buttonValue);
+                updateUserInputDisplay(firstInput.join(''));
+            }
+           
+            
 		}
+        debug();
 	});
 });
 
+decimalButton.addEventListener('click', () => {
+    const buttonValue = button.textContent;
+
+})
+
+
 operatorButtons.forEach(button => {
 	button.addEventListener('click', () => {
-		// Handle click event for operator buttons
-		console.log('Operator Clicked:', button.textContent);
-		// Get the button value
 		const buttonValue = button.textContent;
-
-		if (operatorClicked) {
-			// firstInput = parseFloat(userInputDisplay.textContent);
-			operatorClicked = false;
-
-		}
-
+        operatorClicked = true;
 		if (result !== null) {
+            // here lies the spacing issue
 			userInputDisplay.textContent = inputsArray;
 			calculationDisplay.textContent = '';
 		}
-
 		switch (buttonValue) {
 			case '/':
 			case '+':
 			case '-':
 			case 'x':
-				operator = buttonValue;
-				updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
-				operatorClicked = true;
-				break;
-
+                if (operator.length === 0) {
+				    operator.push(buttonValue);
+                    // userInputDisplay.textContent += ' '
+                    displayUserCalculation();
+                    break;
+                }
+                if (operator.length > 0 ) {
+                    performCalculation();
+                    displayUserCalculation();
+                    userInputDisplay.textContent += ` ${buttonValue} `;
+                    break;
+                }
 			case '+/-':
-				// Toggle positive/negative
-
-
-
 				break;
-				// case '%':
-				// 	// Convert to percentage (/100)
-				// 	if (userInputDisplay.textContent !== '') {
-				// 		const currentValue = parseFloat(userInputDisplay.textContent);
-				// 		updateUserInputDisplay(currentValue / 100);
-				// 	}
-				// 	break;
-
-				// default: 
-
-
 
 		}
-		// i think this breaks something
-		inputsArray = [userInputDisplay.textContent];
-
+        if (operator.length === 0) {
+            operator.push(buttonValue);
+        }
+		
+        debug();
+        
 	});
-	console.log(firstInput);
+
 });
 
 // Clear button functionality resets display and holding variables and flags
-clearButton.addEventListener('click', () => {
-	firstInput = '';
-	secondInput = '';
-	operator = '';
-	operatorClicked = false;
-	updateUserInputDisplay('');
-	updateCalculationDisplay('');
-});
+clearButton.addEventListener('click', clearCalculator);
+
+
 
 
 let result = null;
 
 equalsButton.addEventListener('click', () => {
-	// Split the expression into firstInput, operator, and secondInput
-	const [firstInputStr, operatorStr, secondInputStr] = inputsArray[0].split(/\s+/);
-	firstInput = parseFloat(firstInputStr);
-	operator = operatorStr;
-	secondInput = parseFloat(secondInputStr);
 
-	// Perform the calculation based on the operator
+    performCalculation();
 
-	switch (operator) {
-		case '+':
-			result = additionOperation(firstInput, secondInput);
-			break;
-		case '-':
-			result = subtractionOperation(firstInput, secondInput);
-			break;
-		case '/':
-			result = divisionOperation(firstInput, secondInput);
-			break;
-		case 'x':
-			result = multiplicationOperation(firstInput, secondInput);
-			break;
-			// Add cases for other operators if needed
-
-		default:
-
-			result = firstInput; // Invalid operator
-	}
-
-	// Display the result
-	updateCalculationDisplay(result);
-
+    operatorClicked = false;
+    debug();
 	// Reset variables
-	firstInput = result;
-	secondInput = '';
-	operator = '';
-	operatorClicked = false;
-	inputsArray = [result];
+	
 });
+
+
+
+let displayUserCalculation = () => {
+    let display = '';
+
+    // Display the first input
+    if (inputsArray[0].length > 0) {
+        display += inputsArray[0].join('');
+    }
+
+    // Display the operator if it exists
+    if (operator.length > 0) {
+        display += ' ' + operator.join('');
+    }
+
+    // Display the second input if it exists
+    if (inputsArray[2].length > 0) {
+        display += ' ' + inputsArray[2].join('');
+    }
+
+    userInputDisplay.textContent = display;
+}
