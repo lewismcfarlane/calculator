@@ -63,18 +63,9 @@ numberModButtons.forEach(button => {
 			case '+/-':
 				// Toggle positive/negative
 				if (userInputDisplay.textContent !== '') {
-					const currentValue = parseFloat(userInputDisplay.textContent);
-					updateUserInputDisplay(-currentValue);
+					const currentValue = parseFloat(userInputDisplay.textContent);                    
 				}
 				break;
-
-			// case '%':
-			// 	// Convert to percentage (/100)
-			// 	if (userInputDisplay.textContent !== '') {
-			// 		const currentValue = parseFloat(userInputDisplay.textContent);
-			// 		updateUserInputDisplay(currentValue / 100);
-			// 	}
-			// 	break;
 
             case '.':
                 // Append decimal point if not already present
@@ -91,32 +82,75 @@ numberModButtons.forEach(button => {
                 break;
                   
 		}
-
-        console.log(firstInput = parseFloat(userInputDisplay.textContent))
+        
+        // Check if an operator has been clicked
+        if (operatorClicked) {
+            // If yes, update secondInput
+            secondInput += buttonValue;
+            updateUserInputDisplay(secondInput);
+        } else {
+            // If no operator has been clicked, update firstInput
+            firstInput += buttonValue;
+            updateUserInputDisplay(firstInput);
+        }
 	});
 });
 
-// operatorButtons.forEach(button => {
-// 	button.addEventListener('click', () => {
-// 		// Handle click event for operator buttons
-// 		console.log('Operator Clicked:', button.textContent);
-//         // Get the button value
-//         const buttonValue = button.textContent;
+operatorButtons.forEach(button => {
+	button.addEventListener('click', () => {
+		// Handle click event for operator buttons
+		console.log('Operator Clicked:', button.textContent);
+        // Get the button value
+        const buttonValue = button.textContent;
         
 
 
-//         if (operatorClicked) {
-//             firstInput = parseFloat(userInputDisplay.textContent);
-//             operatorClicked = false;
+        if (operatorClicked) {
+            firstInput = parseFloat(userInputDisplay.textContent);
+            operatorClicked = false;
             
-//         }
-//         updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
-//         operatorClicked = true;
+        }
+       
+        
+        updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
+        operatorClicked = true;
+
+        switch (buttonValue) {
+			case '/':
+                operator = '/';
+				break;
+
+			case '%':
+				// Convert to percentage (/100)
+				if (userInputDisplay.textContent !== '') {
+					const currentValue = parseFloat(userInputDisplay.textContent);
+					updateUserInputDisplay(currentValue / 100);
+				}
+				break;
+
+            case '+':
+                operator = '+'
+                
+                break;
+
+            case '-':
+                operator = '-';
+                break;
+            
+            case 'x':
+                
+                operator = 'x'
+                break;
+
+            
+
+                  
+		}
 
         
-// 	});
-//     console.log(firstInput);
-// });
+	});
+    console.log(firstInput);
+});
 
 // Clear button functionality resets display and holding variables and flags
 clearButton.addEventListener('click', () => {
