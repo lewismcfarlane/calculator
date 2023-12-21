@@ -7,7 +7,7 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-#calculatorContainer {
+    #calculatorContainer {
     display: grid;
     grid-template-rows: auto 1fr; 
     grid-row-gap: 10px;
@@ -22,14 +22,25 @@ body {
   #displayContainer {
     grid-row: 1; 
     grid-column: span 4; 
-    height: 50px;
+    display: flex;
+    flex-direction: column-reverse;
+    min-height: 75px;
+    height: auto;
     width: 280px;
+    max-width: 280px;
     font-size: 24px;
     text-align: right;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin: 5px 0;
+    overflow-wrap: break-word;
   }
+    #calculationDisplay,
+    #userInputDisplay {
+    flex: 1;
+    margin: 7px; /* Adjust padding for better visibility */
+    }
+
 
   #buttonContainer {
     grid-row: 2; 
