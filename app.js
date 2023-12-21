@@ -14,10 +14,10 @@ const multiplicationOperation = (a, b) => {
 	return a * b;
 };
 
-const ADD = '+';
-const SUBTRACT = '-';
-const DIVIDE = '/';
-const MULTIPLY = '*';
+// const ADD = '+';
+// const SUBTRACT = '-';
+// const DIVIDE = '/';
+// const MULTIPLY = '*';
 
 let firstInput = '';
 let secondInput = '';
@@ -52,7 +52,7 @@ const updateUserInputDisplay = (value) => {
 };
 
 const updateCalculationDisplay = (value) => {
-    calculationDisplay.textContent = value;
+	calculationDisplay.textContent = value;
 }
 
 
@@ -63,44 +63,50 @@ numberModButtons.forEach(button => {
 		console.log(`Numeric value clicked: ${buttonValue}`);
 
 
-		// Handle different cases based on the button value
-		switch (buttonValue) {
-			case '+/-':
-				// Toggle positive/negative
-				if (userInputDisplay.textContent !== '') {
-					const currentValue = parseFloat(userInputDisplay.textContent);
-				}
-				break;
-
-			case '.':
-				// Append decimal point if not already present
-				if (userInputDisplay.textContent === '') {
-					updateUserInputDisplay('0.');
-				} else if (!userInputDisplay.textContent.includes('.')) {
-					updateUserInputDisplay(userInputDisplay.textContent + '.');
-				}
-				break;
 
 
-			default:
-				updateUserInputDisplay(userInputDisplay.textContent + buttonValue);
-
-				break;
-
-		}
-
-		inputsArray = [userInputDisplay.textContent];
-
-		// Check if an operator has been clicked
-		if (operatorClicked) {
-			// If yes, update secondInput
-
-			secondInput += buttonValue;
-			// updateUserInputDisplay(secondInput);
+		if (result !== null && operator == '') {
+			userInputDisplay.textContent = buttonValue;
+			calculationDisplay.textContent = '';
+			result = null;
+			firstInput = '';
+			secondInput = '';
+			operator = '';
+			operatorClicked = false;
+			inputsArray = [];
 		} else {
-			// If no operator has been clicked, update firstInput
-			firstInput += buttonValue;
-			// updateUserInputDisplay(firstInput);
+			// Handle different cases based on the button value
+			switch (buttonValue) {
+				case '.':
+					// Append decimal point if not already present
+					if (userInputDisplay.textContent === '') {
+						updateUserInputDisplay('0.');
+					} else if (!userInputDisplay.textContent.includes('.')) {
+						updateUserInputDisplay(userInputDisplay.textContent + '.');
+					}
+					break;
+
+
+				default:
+					updateUserInputDisplay(userInputDisplay.textContent + buttonValue);
+
+					break;
+
+			}
+
+			inputsArray = [userInputDisplay.textContent];
+
+			// Check if an operator has been clicked
+			if (operatorClicked) {
+				// If yes, update secondInput
+
+				secondInput += buttonValue;
+				// updateUserInputDisplay(secondInput);
+			} else {
+				// If no operator has been clicked, update firstInput
+				firstInput += buttonValue;
+				// updateUserInputDisplay(firstInput);
+			}
 		}
 	});
 });
@@ -112,17 +118,16 @@ operatorButtons.forEach(button => {
 		// Get the button value
 		const buttonValue = button.textContent;
 
-
-
 		if (operatorClicked) {
-			firstInput = parseFloat(userInputDisplay.textContent);
+			// firstInput = parseFloat(userInputDisplay.textContent);
 			operatorClicked = false;
 
 		}
 
-
-		updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
-		operatorClicked = true;
+		if (result !== null) {
+			userInputDisplay.textContent = inputsArray;
+			calculationDisplay.textContent = '';
+		}
 
 		switch (buttonValue) {
 			case '/':
@@ -130,20 +135,30 @@ operatorButtons.forEach(button => {
 			case '-':
 			case 'x':
 				operator = buttonValue;
+				updateUserInputDisplay(userInputDisplay.textContent + ` ${buttonValue} `);
+				operatorClicked = true;
 				break;
 
-			case '%':
-				// Convert to percentage (/100)
-				if (userInputDisplay.textContent !== '') {
-					const currentValue = parseFloat(userInputDisplay.textContent);
-					updateUserInputDisplay(currentValue / 100);
-				}
-				break;
+			case '+/-':
+				// Toggle positive/negative
 
+
+
+				break;
+				// case '%':
+				// 	// Convert to percentage (/100)
+				// 	if (userInputDisplay.textContent !== '') {
+				// 		const currentValue = parseFloat(userInputDisplay.textContent);
+				// 		updateUserInputDisplay(currentValue / 100);
+				// 	}
+				// 	break;
+
+				// default: 
 
 
 
 		}
+		// i think this breaks something
 		inputsArray = [userInputDisplay.textContent];
 
 	});
@@ -157,8 +172,11 @@ clearButton.addEventListener('click', () => {
 	operator = '';
 	operatorClicked = false;
 	updateUserInputDisplay('');
-    updateCalculationDisplay('');
+	updateCalculationDisplay('');
 });
+
+
+let result = null;
 
 equalsButton.addEventListener('click', () => {
 	// Split the expression into firstInput, operator, and secondInput
@@ -168,7 +186,7 @@ equalsButton.addEventListener('click', () => {
 	secondInput = parseFloat(secondInputStr);
 
 	// Perform the calculation based on the operator
-	let result;
+
 	switch (operator) {
 		case '+':
 			result = additionOperation(firstInput, secondInput);
@@ -185,7 +203,8 @@ equalsButton.addEventListener('click', () => {
 			// Add cases for other operators if needed
 
 		default:
-			result = NaN; // Invalid operator
+
+			result = firstInput; // Invalid operator
 	}
 
 	// Display the result
@@ -196,5 +215,5 @@ equalsButton.addEventListener('click', () => {
 	secondInput = '';
 	operator = '';
 	operatorClicked = false;
-	inputsArray = [];
+	inputsArray = [result];
 });
