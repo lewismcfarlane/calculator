@@ -152,7 +152,7 @@ let toggleNegative = () => {
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
-		if (result !== null && firstInput[0] !== '-') {
+		if (result !== null && firstInput[0] !== '-' && operator.length === 0) {
 			firstInput = [];
 			calculationDisplay.textContent = '';
 			result = null;
