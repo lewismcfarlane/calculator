@@ -134,6 +134,6 @@ button#clearButton.calculatorButton {
 
 @media (max-width: 720px) {
     body {
-        height: 720px;
+        height: 100vh;
     }
 }
