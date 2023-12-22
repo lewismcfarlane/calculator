@@ -84,11 +84,13 @@ const performCalculation = () => {
 	if (secondInput.length === 0) {
 		firstInput = firstInput.join('');
 		result = firstInput;
-	}
-    if (firstInput.length === 0) {
+	} else if (firstInput.length === 0) {
         a = 0;
         firstInput = ['0'];
         
+    } else if (firstInput.length === 1 && firstInput[0] === '-') {
+        a = -1;
+        firstInput = ['-1'];
     }
 	switch (operator) {
 		case '+':
@@ -368,11 +370,11 @@ let displayUserCalculation = () => {
 
 
 // Event listener for toggle button (positive/negative)
-toggleButton.addEventListener('click', () => {
+// toggleButton.addEventListener('click', () => {
 
-toggleNegative();
+// toggleNegative();
 
-});
+// });
 
 document.addEventListener('keydown', (event) => {
     const pressedKey = event.key;
