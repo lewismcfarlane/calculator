@@ -252,7 +252,7 @@ operatorButtons.forEach(button => {
 					displayUserCalculation();
                     break;
 					
-				} else if (operator.length > 0 && (secondInput.length === 0 || secondInput[0] === '-')) {
+				} else if (operator.length > 0 && (secondInput.length === 0)) {
                     operator = [buttonValue];
                     displayUserCalculation();
                     break
