@@ -15,6 +15,10 @@ const multiplicationOperation = (a, b) => {
 	return a * b;
 };
 
+const exponentOperation = (a, b) => {
+    return a ** b;
+};
+
 // Variables to store input, operator, and flags
 let firstInput = [];
 let secondInput = [];
@@ -27,7 +31,7 @@ const calculationDisplay = document.getElementById('calculationDisplay');
 const userInputDisplay = document.getElementById('userInputDisplay');
 const clearButton = document.getElementById('clearButton');
 const toggleButton = document.getElementById('togglePositiveNegativeButton');
-const percentageButton = document.getElementById('percentageButton');
+const exponentButton = document.getElementById('exponentButton');
 const divisionButton = document.getElementById('divisionButton');
 const multiplicationButton = document.getElementById('multiplicationButton');
 const subtractionButton = document.getElementById('subtractionButton');
@@ -93,7 +97,9 @@ const performCalculation = () => {
 		case 'x':
 			result = multiplicationOperation(a, b);
 			break;
-
+        case 'xx':
+            result = exponentOperation(a, b);
+            break;        
 		default:
 			result = firstInput; // Invalid operator
 	}
@@ -141,7 +147,6 @@ numberModButtons.forEach(button => {
 						displayUserCalculation();
 						break;
 					}
-
 					displayUserCalculation();
 					break;
 				default:
@@ -178,6 +183,7 @@ operatorButtons.forEach(button => {
 			case '+':
 			case '-':
 			case 'x':
+            case 'xx':
 				if (operator.length === 0) {
 					operator.push(buttonValue);
 					// userInputDisplay.textContent += ' '
