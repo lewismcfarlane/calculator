@@ -403,7 +403,6 @@ document.addEventListener('keydown', (event) => {
             break;
         case 'Escape':
         case 'Esc':
-        case 'c':
         case 'Backspace':
             simulateClearClick(pressedKey);
             break;
