@@ -105,14 +105,11 @@ const performCalculation = () => {
 	}
 
 	result = parseFloat(result);
-    if (result < 0.01) {
-        result = parseFloat(result.toPrecision(5))
-
-    } else if (Number.isInteger(result)) {
-		result = result.toPrecision(0);
+    if (Number.isInteger(result)) {
+		result = result.toFixed(0);
 		updateCalculationDisplay(result);
 	} else {
-		result = parseFloat(result.toPrecision(4));
+		result = parseFloat(result.toPrecision(5));
         
 		updateCalculationDisplay(result);
 	}
@@ -342,6 +339,7 @@ document.addEventListener('keydown', (event) => {
         case 'Escape':
         case 'Esc':
         case 'c':
+        case 'Backspace':
             simulateClearClick(pressedKey);
             break;
         case 'Enter':
