@@ -7,6 +7,9 @@ body {
     font-family: 'Arial', sans-serif;
     align-items: center;
     background-color: slategrey;
+    touch-action: manipulation;
+    overflow: hidden;
+
 
 }
 
@@ -41,7 +44,7 @@ body {
     #calculationDisplay,
     #userInputDisplay {
     flex: 1;
-    margin: 7px; /* Adjust padding for better visibility */
+    margin: 5px; /* Adjust padding for better visibility */
     }
 
 
@@ -63,6 +66,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    color: black;
 
   }
 
@@ -80,14 +84,14 @@ body {
 
   .github-banner-container {
     text-align: center;
-    margin: 10px; /* Adjust the margin as needed */
+    margin: 10px;
 }
 
 .github-banner img {
-    width: 50px; /* Adjust the width as needed */
-    height: 50px; /* Adjust the height as needed */
-    border-radius: 50%; /* Optional: Add a border-radius for a circular shape */
-    transition: transform 0.3s ease-in-out; /* Optional: Add a smooth transform effect */
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
     background-color: slategrey;
 }
 
@@ -102,20 +106,20 @@ body {
 #banner {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Align items to the center vertically */
+    align-items: center; 
     background-color: slategrey;
-    padding: 10px 20px; /* Add padding for spacing */
+    padding: 10px 20px; 
     border-radius: 20px;
 }
 
 .github-banner {
-    margin-right: 10px; /* Adjust the margin as needed to add space between the logo and the link */
+    margin-right: 10px; 
 }
 
 .banner-link {
     text-align: center;
-    color: #fff; /* Set the color of the link */
-    text-decoration: none; /* Remove underline */
+    color: #fff; 
+    text-decoration: none;
 }
 
 
