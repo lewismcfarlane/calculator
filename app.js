@@ -208,8 +208,6 @@ operatorButtons.forEach(button => {
                     userInputDisplay.textContent += ` ${buttonValue} `;
                     break;
                 }
-			case '+/-':
-				break;
 
 		}
         if (operator.length === 0) {
@@ -260,3 +258,31 @@ let displayUserCalculation = () => {
 
     userInputDisplay.textContent = display;
 }
+
+toggleButton.addEventListener('click', () => {
+
+
+    if (operatorClicked === false) {
+        const hasNegativeSign = firstInput.length > 0 && firstInput[0] === '-';
+
+
+        if (hasNegativeSign) {
+            firstInput.shift();
+        } else {
+            firstInput.unshift('-');
+        }
+
+        displayUserCalculation();
+
+    } else if (operatorClicked === true) {
+        const hasNegativeSign = secondInput.length >0 && secondInput[0] === '-';
+        if (hasNegativeSign) {
+            secondInput.shift();
+        } else {
+            secondInput.unshift('-');
+        }
+        displayUserCalculation();
+    }
+
+    
+})
