@@ -247,8 +247,17 @@ let result = null;
 
 // Event listener for equals button
 equalsButton.addEventListener('click', () => {
+    if (secondInput.length === 0 || (secondInput.length === 1 && secondInput[0] === '-')) {
+        result = firstInput.join('');
+        updateCalculationDisplay(result);
+        userInputDisplay.textContent = result;
+    } else {
+        performCalculation();
+    }
 
-	performCalculation();
+
+
+
 
 	operatorClicked = false;
 	debug();
@@ -317,13 +326,14 @@ document.addEventListener('keypress', (event) => {
             simulateNumberClick(pressedKey);
             break;
         case 'x':
-        case '*':
-            simulateOperatorClick(pressedKey);
         case '/':
         case '-':
         case '+':
-        case '^':
+        case '*':
             simulateOperatorClick(pressedKey);
+
+        case '^':
+            simulateExponentClick(pressedKey);
             break;
         case 'Escape':
         case 'Esc':
@@ -331,13 +341,14 @@ document.addEventListener('keypress', (event) => {
             simulateClearClick(pressedKey);
             break;
         case 'Enter':
+        case '=':
             simulateEqualsClick(pressedKey);
             break;
     }
 });
 
 
-// Function to simulate a button click based on a key
+// Function to simulate a button click
 function simulateNumberClick(key) {
     const buttons = document.querySelectorAll('.calculatorButton.numberMod');
     for (const button of buttons) {
@@ -374,4 +385,10 @@ function simulateClearClick(key) {
 function simulateEqualsClick() {
     const equalsButton = document.getElementById('equalsButton');
     equalsButton.click();
+}
+
+// Function to simulate the exponent button click
+function simulateExponentClick() {
+    const exponentButton = document.getElementById('exponentButton');
+    exponentButton.click();
 }
