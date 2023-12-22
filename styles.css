@@ -123,6 +123,13 @@ body {
     text-decoration: none;
 }
 
+button#delete.calculatorButton {
+    padding: 3.98px
+}
+button#clearButton.calculatorButton {
+    padding: 3.98px;
+}
+
 
 
 @media (max-width: 720px) {
