@@ -81,22 +81,31 @@ const performCalculation = () => {
 	let b = parseFloat(secondInput.join(''));
     console.log(firstInput, secondInput);
 	operator = operator.join('');
-	if (secondInput.length === 0) {
+	if (secondInput.length === 0  && firstInput[0] === '0' && firstInput[1] !== '.') {
+        a = (firstInput.join('')).substring(1);
+    }
+    else if (secondInput.length === 0) {
 		firstInput = firstInput.join('');
 		result = firstInput;
 	} else if (firstInput.length === 0) {
         a = 0;
-        firstInput = ['0'];
+        firstInput = ['-'];
         
     } else if (firstInput.length === 1 && firstInput[0] === '-') {
-        a = -1;
-        firstInput = ['-1'];
+        if (operator === '-') {
+            a = 0;
+            operator = '+';
+        }
+        
     }
 	switch (operator) {
 		case '+':
 			result = additionOperation(a, b);
 			break;
 		case '-':
+            if (firstInput.length === 1 && firstInput[0] === '-') {
+                result = multiplicationOperation(a, b);
+            } else
 			result = subtractionOperation(a, b);
 			break;
 		case '/':
@@ -132,7 +141,6 @@ const performCalculation = () => {
 let toggleNegative = () => {
     if (operatorClicked === false) {
 		const hasNegativeSign = firstInput.length > 0 && firstInput[0] === '-';
-        // addedd the length bit at the end due to bug
 		if (hasNegativeSign && firstInput.length > 1) {
 			firstInput.shift();
 		} else {
