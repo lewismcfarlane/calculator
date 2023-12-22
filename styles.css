@@ -44,7 +44,8 @@ body {
     #calculationDisplay,
     #userInputDisplay {
     flex: 1;
-    margin: 5px; /* Adjust padding for better visibility */
+    margin-top: 5px;
+    margin-right: 10px;
     }
 
 
