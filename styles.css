@@ -1,10 +1,13 @@
 body {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
     height: 100vh;
     margin: 0;
     font-family: 'Arial', sans-serif;
+    align-items: center;
+    background-color: slategrey;
+
 }
 
     #calculatorContainer {
@@ -63,6 +66,10 @@ body {
 
   }
 
+  .calculatorButton,.calculatorButton::active {
+    color: black;
+  }
+
   .calculatorButton:active {
     background-color: #ddd;
   }
@@ -70,3 +77,51 @@ body {
   #equalsButton {
     grid-column: span 2;
   }
+
+  .github-banner-container {
+    text-align: center;
+    margin: 10px; /* Adjust the margin as needed */
+}
+
+.github-banner img {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    border-radius: 50%; /* Optional: Add a border-radius for a circular shape */
+    transition: transform 0.3s ease-in-out; /* Optional: Add a smooth transform effect */
+    background-color: slategrey;
+}
+
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+#banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items to the center vertically */
+    background-color: slategrey;
+    padding: 10px 20px; /* Add padding for spacing */
+    border-radius: 20px;
+}
+
+.github-banner {
+    margin-right: 10px; /* Adjust the margin as needed to add space between the logo and the link */
+}
+
+.banner-link {
+    text-align: center;
+    color: #fff; /* Set the color of the link */
+    text-decoration: none; /* Remove underline */
+}
+
+
+
+@media (max-width: 720px) {
+    body {
+        height: 720px;
+    }
+}
