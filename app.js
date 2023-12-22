@@ -79,6 +79,7 @@ const updateCalculationDisplay = (value) => {
 const performCalculation = () => {
 	let a = parseFloat(firstInput.join(''));
 	let b = parseFloat(secondInput.join(''));
+    console.log(firstInput, secondInput);
 	operator = operator.join('');
 	if (secondInput.length === 0) {
 		firstInput = firstInput.join('');
@@ -123,7 +124,7 @@ const performCalculation = () => {
 	secondInput = [];
 	operator = [];
 	inputsArray = [firstInput, operator, secondInput];
-
+    return console.log(a, b);
 }
 
 let toggleNegative = () => {
@@ -137,15 +138,27 @@ let toggleNegative = () => {
 		}
 
 		displayUserCalculation();
+        return hasNegativeSign;
 
 	} else if (operatorClicked === true) {
 		const hasNegativeSign = secondInput.length > 0 && secondInput[0] === '-';
-		if (hasNegativeSign) {
+		if (hasNegativeSign && secondInput.length > 1) {
+            performCalculation();
+            operator = ['-'];
+            updateCalculationDisplay;
+           
+
+        }
+        else if (hasNegativeSign) {
 			secondInput.shift();
+        
 		} else {
 			secondInput.unshift('-');
+            
+            
 		}
 		displayUserCalculation();
+        return hasNegativeSign;
 	}
 }
 // Event listeners for number buttons
@@ -202,6 +215,10 @@ numberModButtons.forEach(button => {
 					} else if (firstInput[0] === '-') {
                         firstInput.push(buttonValue);
                         displayUserCalculation();
+                    } else if (firstInput.length > 0 && operator.length > 0) {
+                        secondInput.push([buttonValue]);
+                        displayUserCalculation();
+                        console.log('test');
                     }
                     else {
 						clearCalculator();
@@ -257,7 +274,7 @@ operatorButtons.forEach(button => {
                     break;
                 }
                 else if (operator.length === 0) {
-					operator.push(buttonValue);
+					operator.push([buttonValue]);
 					displayUserCalculation();
                     break;
 					
@@ -265,11 +282,19 @@ operatorButtons.forEach(button => {
                     toggleNegative();
                     displayUserCalculation();
                     break
-                } else {
+                
+                } else if (firstInput.length > 0 && secondInput.length > 0 && operator.length > 0) {
+                    performCalculation();
+                    operator = ['-'];
+                    displayUserCalculation();
+                    break;
+                }
+                else {
 				    
 					performCalculation();
+                    operator.push('-')
 					displayUserCalculation();
-					userInputDisplay.textContent += ` ${buttonValue} `;
+					// userInputDisplay.textContent += ` ${buttonValue} `;
 					break;
 				}
                 break;
@@ -287,7 +312,6 @@ operatorButtons.forEach(button => {
 					userInputDisplay.textContent += ` ^ `;
 					break;
                 }
-
 		}
 		// if (operator.length === 0) {
 		// 	operator.push(buttonValue);
