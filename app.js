@@ -298,4 +298,80 @@ toggleButton.addEventListener('click', () => {
 		displayUserCalculation();
 	}
 
-})
+});
+
+document.addEventListener('keypress', (event) => {
+    const pressedKey = event.key;
+    switch (pressedKey) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '.':
+            simulateNumberClick(pressedKey);
+            break;
+        case 'x':
+        case '*':
+            simulateOperatorClick(pressedKey);
+        case '/':
+        case '-':
+        case '+':
+        case '^':
+            simulateOperatorClick(pressedKey);
+            break;
+        case 'Escape':
+        case 'Esc':
+        case 'c':
+            simulateClearClick(pressedKey);
+            break;
+        case 'Enter':
+            simulateEqualsClick(pressedKey);
+            break;
+    }
+});
+
+
+// Function to simulate a button click based on a key
+function simulateNumberClick(key) {
+    const buttons = document.querySelectorAll('.calculatorButton.numberMod');
+    for (const button of buttons) {
+        if (button.textContent.trim() === key) {
+            button.click();
+            break;
+        }
+    }
+}
+
+// Function to simulate an operator button click
+function simulateOperatorClick(key) {
+    const buttons = document.querySelectorAll('.operator');
+    for (const button of buttons) {
+        if (button.textContent.trim() === key || 
+        ((key === '*' && button.textContent.trim() === 'x'))) {
+            button.click();
+            break;
+        }
+    }
+}
+
+// Function to simulate a clear button click 
+function simulateClearClick(key) {
+    const clearButton = document.getElementById('clearButton');
+    if (key.toLowerCase() === 'c') {
+        clearButton.click();
+    } else {
+        clearButton.click();
+    }
+}
+
+// Function to simulate an equals button click
+function simulateEqualsClick() {
+    const equalsButton = document.getElementById('equalsButton');
+    equalsButton.click();
+}
