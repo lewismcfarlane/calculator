@@ -309,8 +309,9 @@ toggleButton.addEventListener('click', () => {
 
 });
 
-document.addEventListener('keypress', (event) => {
+document.addEventListener('keydown', (event) => {
     const pressedKey = event.key;
+    console.log(pressedKey);
     switch (pressedKey) {
         case '0':
         case '1':
@@ -372,13 +373,9 @@ function simulateOperatorClick(key) {
 }
 
 // Function to simulate a clear button click 
-function simulateClearClick(key) {
+function simulateClearClick(event) {
     const clearButton = document.getElementById('clearButton');
-    if (key.toLowerCase() === 'c') {
-        clearButton.click();
-    } else {
-        clearButton.click();
-    }
+    clearButton.click();
 }
 
 // Function to simulate an equals button click
@@ -392,3 +389,4 @@ function simulateExponentClick() {
     const exponentButton = document.getElementById('exponentButton');
     exponentButton.click();
 }
+
