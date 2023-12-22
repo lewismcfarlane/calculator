@@ -75,6 +75,10 @@ const updateCalculationDisplay = (value) => {
 	calculationDisplay.textContent = value;
 }
 
+const removeLeadingZeros = (str) => {
+    return str.replace(/^0+/, '') || '0';
+};
+
 // Function to perform the calculation
 const performCalculation = () => {
 	let a = parseFloat(firstInput.join(''));
@@ -82,10 +86,10 @@ const performCalculation = () => {
     console.log(firstInput, secondInput);
 	operator = operator.join('');
 	if (secondInput.length === 0  && firstInput[0] === '0' && firstInput[1] !== '.') {
-        a = (firstInput.join('')).substring(1);
+        a = parseFloat(removeLeadingZeros(firstInput.join('')).substring(1));
     }
     else if (secondInput.length === 0) {
-		firstInput = firstInput.join('');
+		firstInput = removeLeadingZeros(firstInput.join(''));
 		result = firstInput;
 	} else if (firstInput.length === 0) {
         a = 0;
@@ -122,15 +126,16 @@ const performCalculation = () => {
 	}
 
 	result = parseFloat(result);
+    
     if (Number.isInteger(result)) {
 		result = result.toFixed(0);
 		updateCalculationDisplay(result);
 	} else {
 		result = parseFloat(result.toFixed(3));
-        
-		updateCalculationDisplay(result);
+        updateCalculationDisplay(result);
+		
 	}
-
+    
 	firstInput = [result];
 	secondInput = [];
 	operator = [];
@@ -267,8 +272,8 @@ operatorButtons.forEach(button => {
                 } else {
 				    
 					performCalculation();
+                    operator = [buttonValue];
 					displayUserCalculation();
-					userInputDisplay.textContent += ` ${buttonValue} `;
 					break;
 				}
             case '-':
