@@ -30,7 +30,7 @@ let inputsArray = [firstInput, operator, secondInput];
 const calculationDisplay = document.getElementById('calculationDisplay');
 const userInputDisplay = document.getElementById('userInputDisplay');
 const clearButton = document.getElementById('clearButton');
-const toggleButton = document.getElementById('togglePositiveNegativeButton');
+const deleteButton = document.getElementById('delete');
 const exponentButton = document.getElementById('exponentButton');
 const divisionButton = document.getElementById('divisionButton');
 const multiplicationButton = document.getElementById('multiplicationButton');
@@ -339,11 +339,6 @@ equalsButton.addEventListener('click', () => {
     } else {
         performCalculation();
     }
-
-
-
-
-
 	operatorClicked = false;
 	debug();
 
@@ -368,13 +363,19 @@ let displayUserCalculation = () => {
 	userInputDisplay.textContent = display;
 }
 
-
-// Event listener for toggle button (positive/negative)
-// toggleButton.addEventListener('click', () => {
-
-// toggleNegative();
-
-// });
+// Function to delete parts of the input
+deleteButton.addEventListener('click', () => {
+    operatorClicked = false;
+    if (firstInput.length > 0 && operator.length === 0) {
+        firstInput.pop()
+    } else if (firstInput.length > 0 && operator.length > 0 && secondInput.length === 0) {
+        operator.pop();
+    } else {
+        secondInput.pop();
+    }
+    displayUserCalculation();
+    debug();
+});
 
 document.addEventListener('keydown', (event) => {
     const pressedKey = event.key;
@@ -405,18 +406,25 @@ document.addEventListener('keydown', (event) => {
             break;
         case 'Escape':
         case 'Esc':
-        case 'Backspace':
             simulateClearClick(pressedKey);
             break;
         case 'Enter':
         case '=':
             simulateEqualsClick(pressedKey);
             break;
+        case 'Backspace':
+            simulateDeleteClick(pressedKey);
+            break;
     }
 });
 
+// Function to simulate backspace click
 
-// Function to simulate a button click
+let simulateDeleteClick = () => {
+    deleteButton.click();
+}
+
+// Function to simulate a number click
 function simulateNumberClick(key) {
     const buttons = document.querySelectorAll('.calculatorButton.numberMod');
     for (const button of buttons) {
