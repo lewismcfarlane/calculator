@@ -105,11 +105,14 @@ const performCalculation = () => {
 	}
 
 	result = parseFloat(result);
-	if (Number.isInteger(result)) {
-		result = result.toFixed(0);
+    if (result < 0.01) {
+        result = parseFloat(result.toPrecision(5))
+
+    } else if (Number.isInteger(result)) {
+		result = result.toPrecision(0);
 		updateCalculationDisplay(result);
 	} else {
-		result = parseFloat(result.toFixed(3));
+		result = parseFloat(result.toPrecision(4));
         
 		updateCalculationDisplay(result);
 	}
