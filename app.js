@@ -138,17 +138,32 @@ numberModButtons.forEach(button => {
 		} else {
 			switch (buttonValue) {
 				case '.':
-					if (firstInput.length === 0) {
-						firstInput.push('0.');
-						displayUserCalculation();
-						break;
-					} else if (!firstInput.some(number => number.includes('.'))) {
-						firstInput.push('.');
-						displayUserCalculation();
-						break;
-					}
-					displayUserCalculation();
-					break;
+                    if (!operatorClicked) {
+                        if (firstInput.length === 0) {
+                            firstInput.push('0.');
+                            displayUserCalculation();
+                            break;
+                        } else if (!firstInput.some(number => number.includes('.'))) {
+                            firstInput.push('.');
+                            displayUserCalculation();
+                            break;
+                        }
+                        displayUserCalculation();
+                        break;
+                    }
+                    if (operatorClicked) {
+                        if (secondInput.length === 0) {
+                            secondInput.push('0.');
+                            displayUserCalculation();
+                            break;
+                        } else if (!secondInput.some(number => number.includes('.'))) {
+                            secondInput.push('.');
+                            displayUserCalculation();
+                            break;
+                        }
+                        displayUserCalculation();
+                        break;                      
+                    }
 				default:
 					if (operatorClicked) {
 						secondInput.push([buttonValue]);
@@ -174,7 +189,6 @@ operatorButtons.forEach(button => {
 		const buttonValue = button.textContent;
 		operatorClicked = true;
 		if (result !== null) {
-			// here lies the spacing issue
 			userInputDisplay.textContent = inputsArray;
 			calculationDisplay.textContent = '';
 		}
@@ -186,7 +200,6 @@ operatorButtons.forEach(button => {
             case 'xx':
 				if (operator.length === 0) {
 					operator.push(buttonValue);
-					// userInputDisplay.textContent += ' '
 					displayUserCalculation();
 					break;
 				}
