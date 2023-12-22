@@ -332,7 +332,7 @@ document.addEventListener('keydown', (event) => {
         case '+':
         case '*':
             simulateOperatorClick(pressedKey);
-
+            break;
         case '^':
             simulateExponentClick(pressedKey);
             break;
