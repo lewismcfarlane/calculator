@@ -114,7 +114,7 @@ const performCalculation = () => {
 		result = result.toFixed(0);
 		updateCalculationDisplay(result);
 	} else {
-		result = parseFloat(result.toPrecision(5));
+		result = parseFloat(result.toFixed(3));
         
 		updateCalculationDisplay(result);
 	}
