@@ -72,9 +72,10 @@ Escape (Esc, Backspace) Keys: Clear the calculator.
 
 ### User Interface and Experience
 
-- [ ] Replace toggle button with a Delete button for users to ammend mistakes.
+- [x] Replace toggle button with a Delete button for users to ammend mistakes.
 - [ ] Build a responsive UI for mobile users.
 - [ ] Enhance accessibility features.
+- [ ] Remove leading zeros if the number displays a non decimal number.
 
 
 
