@@ -201,9 +201,14 @@ operatorButtons.forEach(button => {
 				if (operator.length === 0) {
 					operator.push(buttonValue);
 					displayUserCalculation();
-					break;
-				}
-				if (operator.length > 0) {
+                    break;
+					
+				} else if (operator.length > 0 && (secondInput.length === 0 || secondInput[0] === '-')) {
+                    operator = [buttonValue];
+                    displayUserCalculation();
+                    break
+                } else {
+				    
 					performCalculation();
 					displayUserCalculation();
 					userInputDisplay.textContent += ` ${buttonValue} `;
@@ -214,13 +219,15 @@ operatorButtons.forEach(button => {
 					operator.push('^');
 					displayUserCalculation();
 					break;
-				}
-				if (operator.length > 0) {
-					performCalculation();
+				} else if (operator.length > 0 && (secondInput.length === 0 || secondInput[0] === '-')) {
+                    operator = ['^'];
+                    displayUserCalculation();
+				} else {
+                    performCalculation();
 					displayUserCalculation();
 					userInputDisplay.textContent += ` ^ `;
 					break;
-				}
+                }
 
 		}
 		if (operator.length === 0) {
