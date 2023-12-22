@@ -14,21 +14,11 @@ const multiplicationOperation = (a, b) => {
 	return a * b;
 };
 
-// const ADD = '+';
-// const SUBTRACT = '-';
-// const DIVIDE = '/';
-// const MULTIPLY = '*';
-
 let firstInput = [];
 let secondInput = [];
 let operator = [];
 let operatorClicked = false;
 let inputsArray = [firstInput, operator, secondInput];
-
-let previousFirstInput = [];
-let previousSecondInput = [];
-let previousOperator = [];
-let lastCalc = []
 
 // DOM elements
 const calculationDisplay = document.getElementById('calculationDisplay');
@@ -43,6 +33,8 @@ const additionButton = document.getElementById('additionButton');
 const numberButtons = document.querySelectorAll('.calculatorButton:not(#clearButton):not(#togglePositiveNegativeButton):not(#percentageButton):not(#divisionButton):not(#multiplicationButton):not(#subtractionButton):not(#additionButton):not(#equalsButton):not(#decimalButton)');
 const decimalButton = document.getElementById('decimalButton');
 const equalsButton = document.getElementById('equalsButton');
+const operatorButtons = document.querySelectorAll('.operator');
+const numberModButtons = document.querySelectorAll('.calculatorButton.numberMod');
 
 //DEBUG DOM
 let debug = () => {
@@ -67,17 +59,10 @@ let clearCalculator = () => {
 
 
 
-
-// Event listeners for operator buttons
-const operatorButtons = document.querySelectorAll('.operator');
-
-// Event listeners for number modifier buttons
-const numberModButtons = document.querySelectorAll('.calculatorButton.numberMod');
-
 // Function to update userInputDisplay with the provided value
 const updateUserInputDisplay = (value) => {
 	userInputDisplay.textContent = value;
-	// console.log(parseFloat(value));
+	
 };
 
 const updateCalculationDisplay = (value) => {
@@ -110,10 +95,13 @@ const performCalculation = () => {
 		default:
 			result = firstInput; // Invalid operator
 	}
+
+    result = parseFloat(result);
     if (Number.isInteger(result)) {
+        result = result.toFixed(0);
         updateCalculationDisplay(result);
-    } else if (!Number.isInteger(result)) {
-        result = result.toFixed(2);
+    } else {
+        result = result.toFixed(3);
         updateCalculationDisplay(result);
     }
 	
@@ -147,34 +135,40 @@ numberModButtons.forEach(button => {
 			switch (buttonValue) {
 				case '.':
 					// Append decimal point if not already present
-					if (userInputDisplay.textContent === '') {
-						updateUserInputDisplay('0.');
-					} else if (!userInputDisplay.textContent.includes('.')) {
-						updateUserInputDisplay(userInputDisplay.textContent + '.');
+					if (firstInput.length === 0) {
+						firstInput.push('0.');
+                        displayUserCalculation();
+                        break;
+					} else if (!firstInput.some(number => number.includes('.'))) {
+                        firstInput.push('.');
+                        displayUserCalculation();
+                        break;
 					}
+
+                    displayUserCalculation();
 					break;
 				default:
-					// updateUserInputDisplay(inputsArray.join(' ') + buttonValue);
+                    if (operatorClicked) {
+			
+
+                        secondInput.push([buttonValue]);
+                        displayUserCalculation();
+                        // updateUserInputDisplay(`${firstInput.join('')} ${operator} ${secondInput.join('')}`);
+                    } else if (result === null) {
+                        
+                        firstInput.push(buttonValue);
+                        displayUserCalculation();
+                        // updateUserInputDisplay(firstInput.join(''));
+                    } else {
+                        clearCalculator();
+                        firstInput.push(buttonValue);
+                        updateUserInputDisplay(firstInput.join(''));
+                    }
 					break;
 			}
 			
 			// Check if an operator has been clicked
-			if (operatorClicked) {
-			
 
-				secondInput.push([buttonValue]);
-                displayUserCalculation();
-				// updateUserInputDisplay(`${firstInput.join('')} ${operator} ${secondInput.join('')}`);
-			} else if (result === null) {
-				
-				firstInput.push(buttonValue);
-                displayUserCalculation();
-				// updateUserInputDisplay(firstInput.join(''));
-			} else {
-                clearCalculator();
-                firstInput.push(buttonValue);
-                updateUserInputDisplay(firstInput.join(''));
-            }
            
             
 		}
@@ -182,10 +176,10 @@ numberModButtons.forEach(button => {
 	});
 });
 
-decimalButton.addEventListener('click', () => {
-    const buttonValue = button.textContent;
+// decimalButton.addEventListener('click', () => {
+//     const buttonValue = button.textContent;
 
-})
+// })
 
 
 operatorButtons.forEach(button => {
@@ -242,7 +236,7 @@ equalsButton.addEventListener('click', () => {
 
     operatorClicked = false;
     debug();
-	// Reset variables
+
 	
 });
 
@@ -251,17 +245,15 @@ equalsButton.addEventListener('click', () => {
 let displayUserCalculation = () => {
     let display = '';
 
-    // Display the first input
     if (inputsArray[0].length > 0) {
         display += inputsArray[0].join('');
     }
 
-    // Display the operator if it exists
+   
     if (operator.length > 0) {
         display += ' ' + operator.join('');
     }
 
-    // Display the second input if it exists
     if (inputsArray[2].length > 0) {
         display += ' ' + inputsArray[2].join('');
     }
