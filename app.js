@@ -84,6 +84,11 @@ const performCalculation = () => {
 		firstInput = firstInput.join('');
 		result = firstInput;
 	}
+    if (firstInput.length === 0) {
+        a = 0;
+        firstInput = ['0'];
+        
+    }
 	switch (operator) {
 		case '+':
 			result = additionOperation(a, b);
@@ -124,8 +129,8 @@ const performCalculation = () => {
 let toggleNegative = () => {
     if (operatorClicked === false) {
 		const hasNegativeSign = firstInput.length > 0 && firstInput[0] === '-';
-
-		if (hasNegativeSign) {
+        // addedd the length bit at the end due to bug
+		if (hasNegativeSign && firstInput.length > 1) {
 			firstInput.shift();
 		} else {
 			firstInput.unshift('-');
@@ -147,7 +152,7 @@ let toggleNegative = () => {
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
-		if (result !== null && operator.length == []) {
+		if (result !== null && firstInput[0] !== '-') {
 			firstInput = [];
 			calculationDisplay.textContent = '';
 			result = null;
@@ -194,7 +199,11 @@ numberModButtons.forEach(button => {
 					} else if (result === null) {
 						firstInput.push(buttonValue);
 						displayUserCalculation();
-					} else {
+					} else if (firstInput[0] === '-') {
+                        firstInput.push(buttonValue);
+                        displayUserCalculation();
+                    }
+                    else {
 						clearCalculator();
 						firstInput.push(buttonValue);
 						updateUserInputDisplay(firstInput.join(''));
