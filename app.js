@@ -121,6 +121,28 @@ const performCalculation = () => {
 
 }
 
+let toggleNegative = () => {
+    if (operatorClicked === false) {
+		const hasNegativeSign = firstInput.length > 0 && firstInput[0] === '-';
+
+		if (hasNegativeSign) {
+			firstInput.shift();
+		} else {
+			firstInput.unshift('-');
+		}
+
+		displayUserCalculation();
+
+	} else if (operatorClicked === true) {
+		const hasNegativeSign = secondInput.length > 0 && secondInput[0] === '-';
+		if (hasNegativeSign) {
+			secondInput.shift();
+		} else {
+			secondInput.unshift('-');
+		}
+		displayUserCalculation();
+	}
+}
 // Event listeners for number buttons
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
@@ -196,7 +218,6 @@ operatorButtons.forEach(button => {
 		switch (buttonValue) {
 			case '/':
 			case '+':
-			case '-':
 			case 'x':
 				if (operator.length === 0) {
 					operator.push(buttonValue);
@@ -214,6 +235,35 @@ operatorButtons.forEach(button => {
 					userInputDisplay.textContent += ` ${buttonValue} `;
 					break;
 				}
+            case '-':
+                if (operator.length === 0 && firstInput.length === 0) {
+                    operatorClicked = false;
+                    firstInput.push('-');
+                    displayUserCalculation();
+                    break;
+                } else if (operator === '-' && secondInput.length === 0) {
+                    operatorClicked = false;
+                    secondInput.push('-');
+                    displayUserCalculation();
+                    break;
+                }
+                else if (operator.length === 0) {
+					operator.push(buttonValue);
+					displayUserCalculation();
+                    break;
+					
+				} else if (operator.length > 0 && (secondInput.length === 0 || secondInput[0] === '-')) {
+                    toggleNegative();
+                    displayUserCalculation();
+                    break
+                } else {
+				    
+					performCalculation();
+					displayUserCalculation();
+					userInputDisplay.textContent += ` ${buttonValue} `;
+					break;
+				}
+                break;
             case 'xx':
                 if (operator.length === 0) {
 					operator.push('^');
@@ -230,9 +280,9 @@ operatorButtons.forEach(button => {
                 }
 
 		}
-		if (operator.length === 0) {
-			operator.push(buttonValue);
-		}
+		// if (operator.length === 0) {
+		// 	operator.push(buttonValue);
+		// }
 
 		debug();
 
@@ -283,29 +333,11 @@ let displayUserCalculation = () => {
 	userInputDisplay.textContent = display;
 }
 
+
 // Event listener for toggle button (positive/negative)
 toggleButton.addEventListener('click', () => {
 
-	if (operatorClicked === false) {
-		const hasNegativeSign = firstInput.length > 0 && firstInput[0] === '-';
-
-		if (hasNegativeSign) {
-			firstInput.shift();
-		} else {
-			firstInput.unshift('-');
-		}
-
-		displayUserCalculation();
-
-	} else if (operatorClicked === true) {
-		const hasNegativeSign = secondInput.length > 0 && secondInput[0] === '-';
-		if (hasNegativeSign) {
-			secondInput.shift();
-		} else {
-			secondInput.unshift('-');
-		}
-		displayUserCalculation();
-	}
+toggleNegative();
 
 });
 
