@@ -97,7 +97,7 @@ const performCalculation = () => {
 		case 'x':
 			result = multiplicationOperation(a, b);
 			break;
-        case 'xx':
+        case '^':
             result = exponentOperation(a, b);
             break;        
 		default:
@@ -109,7 +109,8 @@ const performCalculation = () => {
 		result = result.toFixed(0);
 		updateCalculationDisplay(result);
 	} else {
-		result = result.toFixed(3);
+		result = parseFloat(result.toFixed(3));
+        
 		updateCalculationDisplay(result);
 	}
 
@@ -197,7 +198,6 @@ operatorButtons.forEach(button => {
 			case '+':
 			case '-':
 			case 'x':
-            case 'xx':
 				if (operator.length === 0) {
 					operator.push(buttonValue);
 					displayUserCalculation();
@@ -207,6 +207,18 @@ operatorButtons.forEach(button => {
 					performCalculation();
 					displayUserCalculation();
 					userInputDisplay.textContent += ` ${buttonValue} `;
+					break;
+				}
+            case 'xx':
+                if (operator.length === 0) {
+					operator.push('^');
+					displayUserCalculation();
+					break;
+				}
+				if (operator.length > 0) {
+					performCalculation();
+					displayUserCalculation();
+					userInputDisplay.textContent += ` ^ `;
 					break;
 				}
 
