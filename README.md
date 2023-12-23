@@ -58,7 +58,9 @@ Decimal Key (.): Input decimal numbers.
 
 Enter (=) Key: Calculate result.
 
-Escape (Esc, Backspace) Keys: Clear the calculator.
+Backspace Key: Delete last input.
+
+Escape (Esc) Keys: Clear the calculator.
 ## To-Do List
 
 ### Core Functionality
