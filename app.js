@@ -98,13 +98,7 @@ const performCalculation = () => {
 	let b = parseFloat(secondInput.join(''));
     console.log(firstInput, secondInput);
 	operator = operator.join('');
-	if (secondInput.length === 0  && firstInput[0] === '0' && firstInput[1] !== '.') {
-        a = parseFloat(removeLeadingZeros(firstInput.join('')).substring(1));
-    }
-    else if (secondInput.length === 0) {
-		firstInput = removeLeadingZeros(firstInput.join(''));
-		result = firstInput;
-	} else if (firstInput.length === 0) {
+	if (firstInput.length === 0) {
         a = 0;
         firstInput = ['-'];
         
