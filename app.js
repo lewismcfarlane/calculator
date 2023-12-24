@@ -98,6 +98,11 @@ const performCalculation = () => {
 	let b = parseFloat(secondInput.join(''));
     console.log(firstInput, secondInput);
 	operator = operator.join('');
+    let storedOperator = operator
+    if (firstInput.length === 1 && firstInput[0] === '-' && secondInput.length === 1 && secondInput[0] === '-') {
+        clearCalculator();
+        return;
+    }
 	if (firstInput.length === 0) {
         a = 0;
         firstInput = ['-'];
@@ -133,7 +138,10 @@ const performCalculation = () => {
 	}
 
 	result = parseFloat(result);
-    let whatUserTyped = `${firstInput.join('')} ${operator} ${secondInput.join('')}`;
+
+        
+
+    let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
     if (isNaN(result)) {
         updateCalculationDisplay('');
         updateUserInputDisplay('');
