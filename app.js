@@ -75,9 +75,22 @@ const updateCalculationDisplay = (value) => {
 	calculationDisplay.textContent = value;
 }
 
+// Function to remove leading zeros from a string for non-decimal numbers
 const removeLeadingZeros = (str) => {
-    return str.replace(/^0+/, '') || '0';
+    // Use a regular expression to match and remove leading zeros that are not part of a decimal number
+    let withoutLeadingZeros = str.replace(/^0+(?!\.)/, '');
+    
+    // Ensure that at least one digit is present for non-decimal numbers
+    // If the result is an empty string or just a decimal point, set it to '0'
+    if (withoutLeadingZeros === '' || withoutLeadingZeros === '.') {
+        withoutLeadingZeros = '0';
+    }
+
+    // Return the modified string without leading zeros
+    return withoutLeadingZeros;
 };
+
+
 
 // Function to perform the calculation
 const performCalculation = () => {
@@ -346,7 +359,7 @@ let result = null;
 // Event listener for equals button
 equalsButton.addEventListener('click', () => {
     if (secondInput.length === 0 || (secondInput.length === 1 && secondInput[0] === '-')) {
-        result = firstInput.join('');
+        result = removeLeadingZeros(firstInput.join(''));
         updateCalculationDisplay(result);
         userInputDisplay.textContent = result;
     } else {
