@@ -74,11 +74,11 @@ Escape (Esc) Keys: Clear the calculator.
 
 ### User Interface and Experience
 
-- [x] Replace toggle button with a Delete button for users to ammend mistakes.
+- [x] Replace toggle button with a Delete button for users to amend mistakes.
 - [ ] Build a responsive UI for mobile users.
 - [ ] Enhance accessibility features.
-- [ ] Remove leading zeros if the number displays a non decimal number.
-
+- [x] Remove leading zeros if the number displays a non decimal number.
+- [ ] Add handling for very large or very small numbers in the format of scientific numbers.
 
 
 ---
