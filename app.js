@@ -100,16 +100,16 @@ const performCalculation = () => {
 	console.log(firstInput, secondInput);
 	operator = operator.join('');
 	let storedOperator = operator
-    let storedFirstInput = firstInput;
-    let storedSecondInput = secondInput;
-    let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
+	let storedFirstInput = firstInput;
+	let storedSecondInput = secondInput;
+	let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
 	if ((firstInput.length === 1 &&
 			firstInput[0] === '-' &&
 			secondInput.length === 1 &&
 			secondInput[0] === '-') ||
 		firstInput.length > 0 && secondInput[0] === '-') {
 		clearCalculator();
-        updateUserInputDisplay(whatUserTyped);
+		updateUserInputDisplay(whatUserTyped);
 		updateCalculationDisplay('Error: Invalid Operation');
 		return;
 	}
@@ -149,7 +149,6 @@ const performCalculation = () => {
 
 	result = parseFloat(result);
 
-	
 	if (isNaN(result)) {
 		let errorMessage = 'Cannot divide by zero'
 		updateCalculationDisplay(errorMessage);
@@ -205,10 +204,10 @@ let toggleNegative = () => {
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
-        if (calculationDisplay.textContent === 'Error: Invalid Operation') {
+		if (calculationDisplay.textContent === 'Error: Invalid Operation') {
 			clearCalculator();
-            firstInput.push(buttonValue);
-            displayUserCalculation();
+			firstInput.push(buttonValue);
+			displayUserCalculation();
 		} else if (result !== null && firstInput[0] !== '-' && operator.length === 0) {
 			firstInput = [];
 			calculationDisplay.textContent = '';
