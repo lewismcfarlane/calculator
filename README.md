@@ -72,10 +72,6 @@ Escape (Esc) Keys: Clear the calculator.
 - [x] Add exponentiation functionality.
 - [x] Implement keyboard shortcuts.
 
-### Bug Fixes
-
-- [ ] Handle case of multiple operator inputs without numeric inputs
-
 ### User Interface and Experience
 
 - [x] Replace toggle button with a Delete button for users to ammend mistakes.
