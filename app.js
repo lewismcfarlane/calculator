@@ -133,12 +133,18 @@ const performCalculation = () => {
 	}
 
 	result = parseFloat(result);
-    
-    if (Number.isInteger(result)) {
+    let whatUserTyped = `${firstInput.join('')} ${operator} ${secondInput.join('')}`;
+    if (isNaN(result)) {
+        updateCalculationDisplay('');
+        updateUserInputDisplay('');
+    }
+    else if (Number.isInteger(result)) {
 		result = result.toFixed(0);
+        updateUserInputDisplay(whatUserTyped)
 		updateCalculationDisplay(result);
 	} else {
 		result = parseFloat(result.toFixed(3));
+        updateUserInputDisplay(whatUserTyped)
         updateCalculationDisplay(result);
 		
 	}
@@ -352,11 +358,14 @@ let result = null;
 
 // Event listener for equals button
 equalsButton.addEventListener('click', () => {
-    if (secondInput.length === 0 || (secondInput.length === 1 && secondInput[0] === '-')) {
+    if (secondInput.length === 0) {
+        firstInput = [removeLeadingZeros(firstInput.join(''))]
         result = removeLeadingZeros(firstInput.join(''));
         updateCalculationDisplay(result);
         userInputDisplay.textContent = result;
     } else {
+        firstInput = [removeLeadingZeros(firstInput.join(''))]
+        secondInput = [removeLeadingZeros(secondInput.join(''))]
         performCalculation();
     }
 	operatorClicked = false;
@@ -369,7 +378,7 @@ let displayUserCalculation = () => {
 	let display = '';
 
 	if (inputsArray[0].length > 0) {
-		display += inputsArray[0].join('');
+		display += firstInput.join('');
 	}
 
 	if (operator.length > 0) {
@@ -377,7 +386,7 @@ let displayUserCalculation = () => {
 	}
 
 	if (inputsArray[2].length > 0) {
-		display += ' ' + inputsArray[2].join('');
+		display += ' ' + secondInput.join('');
 	}
 
 	userInputDisplay.textContent = display;
