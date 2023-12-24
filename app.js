@@ -99,8 +99,13 @@ const performCalculation = () => {
     console.log(firstInput, secondInput);
 	operator = operator.join('');
     let storedOperator = operator
-    if (firstInput.length === 1 && firstInput[0] === '-' && secondInput.length === 1 && secondInput[0] === '-') {
+    if ((firstInput.length === 1 
+        && firstInput[0] === '-' 
+        && secondInput.length === 1 
+        && secondInput[0] === '-') ||
+        firstInput.length > 0 && secondInput[0] === '-') {
         clearCalculator();
+        updateCalculationDisplay('Error: Invalid Operation');
         return;
     }
 	if (firstInput.length === 0) {
@@ -142,11 +147,7 @@ const performCalculation = () => {
         
 
     let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
-    if (isNaN(result)) {
-        updateCalculationDisplay('');
-        updateUserInputDisplay('');
-    }
-    else if (Number.isInteger(result)) {
+    if (Number.isInteger(result)) {
 		result = result.toFixed(0);
         updateUserInputDisplay(whatUserTyped)
 		updateCalculationDisplay(result);
@@ -201,7 +202,10 @@ let toggleNegative = () => {
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
-		if (result !== null && firstInput[0] !== '-' && operator.length === 0) {
+		if (calculationDisplay.textContent === 'Error: Invalid Operation') {
+            clearCalculator();
+        }
+        else if (result !== null && firstInput[0] !== '-' && operator.length === 0) {
 			firstInput = [];
 			calculationDisplay.textContent = '';
 			result = null;
@@ -273,7 +277,10 @@ operatorButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
 		operatorClicked = true;
-		if (result !== null) {
+        if (calculationDisplay.textContent === 'Error: Invalid Operation') {
+            clearCalculator();
+        }
+        else if (result !== null) {
 			userInputDisplay.textContent = inputsArray;
 			calculationDisplay.textContent = '';
 		}
