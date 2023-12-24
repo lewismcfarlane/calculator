@@ -8,10 +8,10 @@ const subtractionOperation = (a, b) => {
 };
 
 const divisionOperation = (a, b) => {
-    if (b !== 0) {
-        return a / b;
-    } else return;
-	
+	if (b !== 0) {
+		return a / b;
+	} else return;
+
 };
 
 const multiplicationOperation = (a, b) => {
@@ -19,7 +19,7 @@ const multiplicationOperation = (a, b) => {
 };
 
 const exponentOperation = (a, b) => {
-    return a ** b;
+	return a ** b;
 };
 
 // Variables to store input, operator, and flags
@@ -80,57 +80,59 @@ const updateCalculationDisplay = (value) => {
 
 // Function to remove leading zeros from a string for non-decimal numbers
 const removeLeadingZeros = (str) => {
-    // Use a regular expression to match and remove leading zeros that are not part of a decimal number
-    let withoutLeadingZeros = str.replace(/^0+(?!\.)/, '');
-    
-    // Ensure that at least one digit is present for non-decimal numbers
-    // If the result is an empty string or just a decimal point, set it to '0'
-    if (withoutLeadingZeros === '' || withoutLeadingZeros === '.') {
-        withoutLeadingZeros = '0';
-    }
+	// Use a regular expression to match and remove leading zeros that are not part of a decimal number
+	let withoutLeadingZeros = str.replace(/^0+(?!\.)/, '');
 
-    // Return the modified string without leading zeros
-    return withoutLeadingZeros;
+	// Ensure that at least one digit is present for non-decimal numbers
+	// If the result is an empty string or just a decimal point, set it to '0'
+	if (withoutLeadingZeros === '' || withoutLeadingZeros === '.') {
+		withoutLeadingZeros = '0';
+	}
+
+	// Return the modified string without leading zeros
+	return withoutLeadingZeros;
 };
-
-
 
 // Function to perform the calculation
 const performCalculation = () => {
 	let a = parseFloat(firstInput.join(''));
 	let b = parseFloat(secondInput.join(''));
-    console.log(firstInput, secondInput);
+	console.log(firstInput, secondInput);
 	operator = operator.join('');
-    let storedOperator = operator
-    if ((firstInput.length === 1 
-        && firstInput[0] === '-' 
-        && secondInput.length === 1 
-        && secondInput[0] === '-') ||
-        firstInput.length > 0 && secondInput[0] === '-') {
-        clearCalculator();
-        updateCalculationDisplay('Error: Invalid Operation');
-        return;
-    }
+	let storedOperator = operator
+    let storedFirstInput = firstInput;
+    let storedSecondInput = secondInput;
+    let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
+	if ((firstInput.length === 1 &&
+			firstInput[0] === '-' &&
+			secondInput.length === 1 &&
+			secondInput[0] === '-') ||
+		firstInput.length > 0 && secondInput[0] === '-') {
+		clearCalculator();
+        updateUserInputDisplay(whatUserTyped);
+		updateCalculationDisplay('Error: Invalid Operation');
+		return;
+	}
 	if (firstInput.length === 0) {
-        a = 0;
-        firstInput = ['-'];
-        
-    } else if (firstInput.length === 1 && firstInput[0] === '-') {
-        if (operator === '-') {
-            a = 0;
-            operator = '+';
-        }
-        
-    }
+		a = 0;
+		firstInput = ['-'];
+
+	} else if (firstInput.length === 1 && firstInput[0] === '-') {
+		if (operator === '-') {
+			a = 0;
+			operator = '+';
+		}
+
+	}
 	switch (operator) {
 		case '+':
 			result = additionOperation(a, b);
 			break;
 		case '-':
-            if (firstInput.length === 1 && firstInput[0] === '-') {
-                result = multiplicationOperation(a, b);
-            } else
-			result = subtractionOperation(a, b);
+			if (firstInput.length === 1 && firstInput[0] === '-') {
+				result = multiplicationOperation(a, b);
+			} else
+				result = subtractionOperation(a, b);
 			break;
 		case '/':
 			result = divisionOperation(a, b);
@@ -138,42 +140,39 @@ const performCalculation = () => {
 		case 'x':
 			result = multiplicationOperation(a, b);
 			break;
-        case '^':
-            result = exponentOperation(a, b);
-            break;        
+		case '^':
+			result = exponentOperation(a, b);
+			break;
 		default:
 			result = firstInput; // Invalid operator
 	}
 
 	result = parseFloat(result);
 
-        
-
-    let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
-    if (isNaN(result)) {
-        let errorMessage = 'Cannot divide by zero'
-        updateCalculationDisplay(errorMessage);
-    }
-    else if (Number.isInteger(result)) {
+	
+	if (isNaN(result)) {
+		let errorMessage = 'Cannot divide by zero'
+		updateCalculationDisplay(errorMessage);
+	} else if (Number.isInteger(result)) {
 		result = result.toFixed(0);
-        updateUserInputDisplay(whatUserTyped)
+		updateUserInputDisplay(whatUserTyped)
 		updateCalculationDisplay(result);
 	} else {
 		result = parseFloat(result.toFixed(3));
-        updateUserInputDisplay(whatUserTyped)
-        updateCalculationDisplay(result);
-		
+		updateUserInputDisplay(whatUserTyped)
+		updateCalculationDisplay(result);
+
 	}
-    
+
 	firstInput = [result];
 	secondInput = [];
 	operator = [];
 	inputsArray = [firstInput, operator, secondInput];
-    return console.log(a, b);
+	return console.log(a, b);
 }
 
 let toggleNegative = () => {
-    if (operatorClicked === false) {
+	if (operatorClicked === false) {
 		const hasNegativeSign = firstInput.length > 0 && firstInput[0] === '-';
 		if (hasNegativeSign && firstInput.length > 1) {
 			firstInput.shift();
@@ -182,37 +181,35 @@ let toggleNegative = () => {
 		}
 
 		displayUserCalculation();
-        return hasNegativeSign;
+		return hasNegativeSign;
 
 	} else if (operatorClicked === true) {
 		const hasNegativeSign = secondInput.length > 0 && secondInput[0] === '-';
 		if (hasNegativeSign && secondInput.length > 1) {
-            performCalculation();
-            operator = ['-'];
-            updateCalculationDisplay;
-           
+			performCalculation();
+			operator = ['-'];
+			updateCalculationDisplay;
 
-        }
-        else if (hasNegativeSign) {
+		} else if (hasNegativeSign) {
 			secondInput.shift();
-        
+
 		} else {
 			secondInput.unshift('-');
-            
-            
+
 		}
 		displayUserCalculation();
-        return hasNegativeSign;
+		return hasNegativeSign;
 	}
 }
 // Event listeners for number buttons
 numberModButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
-		if (calculationDisplay.textContent === 'Error: Invalid Operation') {
-            clearCalculator();
-        }
-        else if (result !== null && firstInput[0] !== '-' && operator.length === 0) {
+        if (calculationDisplay.textContent === 'Error: Invalid Operation') {
+			clearCalculator();
+            firstInput.push(buttonValue);
+            displayUserCalculation();
+		} else if (result !== null && firstInput[0] !== '-' && operator.length === 0) {
 			firstInput = [];
 			calculationDisplay.textContent = '';
 			result = null;
@@ -226,32 +223,32 @@ numberModButtons.forEach(button => {
 		} else {
 			switch (buttonValue) {
 				case '.':
-                    if (!operatorClicked) {
-                        if (firstInput.length === 0) {
-                            firstInput.push('0.');
-                            displayUserCalculation();
-                            break;
-                        } else if (!firstInput.some(number => number.includes('.'))) {
-                            firstInput.push('.');
-                            displayUserCalculation();
-                            break;
-                        }
-                        displayUserCalculation();
-                        break;
-                    }
-                    if (operatorClicked) {
-                        if (secondInput.length === 0) {
-                            secondInput.push('0.');
-                            displayUserCalculation();
-                            break;
-                        } else if (!secondInput.some(number => number.includes('.'))) {
-                            secondInput.push('.');
-                            displayUserCalculation();
-                            break;
-                        }
-                        displayUserCalculation();
-                        break;                      
-                    }
+					if (!operatorClicked) {
+						if (firstInput.length === 0) {
+							firstInput.push('0.');
+							displayUserCalculation();
+							break;
+						} else if (!firstInput.some(number => number.includes('.'))) {
+							firstInput.push('.');
+							displayUserCalculation();
+							break;
+						}
+						displayUserCalculation();
+						break;
+					}
+					if (operatorClicked) {
+						if (secondInput.length === 0) {
+							secondInput.push('0.');
+							displayUserCalculation();
+							break;
+						} else if (!secondInput.some(number => number.includes('.'))) {
+							secondInput.push('.');
+							displayUserCalculation();
+							break;
+						}
+						displayUserCalculation();
+						break;
+					}
 				default:
 					if (operatorClicked) {
 						secondInput.push([buttonValue]);
@@ -260,14 +257,13 @@ numberModButtons.forEach(button => {
 						firstInput.push(buttonValue);
 						displayUserCalculation();
 					} else if (firstInput[0] === '-') {
-                        firstInput.push(buttonValue);
-                        displayUserCalculation();
-                    } else if (firstInput.length > 0 && operator.length > 0) {
-                        secondInput.push([buttonValue]);
-                        displayUserCalculation();
-                        console.log('test');
-                    }
-                    else {
+						firstInput.push(buttonValue);
+						displayUserCalculation();
+					} else if (firstInput.length > 0 && operator.length > 0) {
+						secondInput.push([buttonValue]);
+						displayUserCalculation();
+						console.log('test');
+					} else {
 						clearCalculator();
 						firstInput.push(buttonValue);
 						updateUserInputDisplay(firstInput.join(''));
@@ -284,10 +280,9 @@ operatorButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const buttonValue = button.textContent;
 		operatorClicked = true;
-        if (calculationDisplay.textContent === 'Error: Invalid Operation') {
-            clearCalculator();
-        }
-        else if (result !== null) {
+		if (calculationDisplay.textContent === 'Error: Invalid Operation') {
+			clearCalculator();
+		} else if (result !== null) {
 			userInputDisplay.textContent = inputsArray;
 			calculationDisplay.textContent = '';
 		}
@@ -298,70 +293,68 @@ operatorButtons.forEach(button => {
 				if (operator.length === 0) {
 					operator.push(buttonValue);
 					displayUserCalculation();
-                    break;
-					
+					break;
+
 				} else if (operator.length > 0 && (secondInput.length === 0)) {
-                    operator = [buttonValue];
-                    displayUserCalculation();
-                    break
-                } else {
-				    
+					operator = [buttonValue];
+					displayUserCalculation();
+					break
+				} else {
+
 					performCalculation();
-                    operator = [buttonValue];
+					operator = [buttonValue];
 					displayUserCalculation();
 					break;
 				}
-            case '-':
-                if (operator.length === 0 && firstInput.length === 0) {
-                    operatorClicked = false;
-                    firstInput.push('-');
-                    displayUserCalculation();
-                    break;
-                } else if (operator === '-' && secondInput.length === 0) {
-                    operatorClicked = false;
-                    secondInput.push('-');
-                    displayUserCalculation();
-                    break;
-                }
-                else if (operator.length === 0) {
+			case '-':
+				if (operator.length === 0 && firstInput.length === 0) {
+					operatorClicked = false;
+					firstInput.push('-');
+					displayUserCalculation();
+					break;
+				} else if (operator === '-' && secondInput.length === 0) {
+					operatorClicked = false;
+					secondInput.push('-');
+					displayUserCalculation();
+					break;
+				} else if (operator.length === 0) {
 					operator.push([buttonValue]);
 					displayUserCalculation();
-                    break;
-					
+					break;
+
 				} else if (operator.length > 0 && (secondInput.length === 0 || secondInput[0] === '-')) {
-                    toggleNegative();
-                    displayUserCalculation();
-                    break
-                
-                } else if (firstInput.length > 0 && secondInput.length > 0 && operator.length > 0) {
-                    performCalculation();
-                    operator = ['-'];
-                    displayUserCalculation();
-                    break;
-                }
-                else {
-				    
+					toggleNegative();
+					displayUserCalculation();
+					break
+
+				} else if (firstInput.length > 0 && secondInput.length > 0 && operator.length > 0) {
 					performCalculation();
-                    operator.push('-')
+					operator = ['-'];
+					displayUserCalculation();
+					break;
+				} else {
+
+					performCalculation();
+					operator.push('-')
 					displayUserCalculation();
 					// userInputDisplay.textContent += ` ${buttonValue} `;
 					break;
 				}
-                break;
-            case 'xx':
-                if (operator.length === 0) {
+				break;
+			case 'xx':
+				if (operator.length === 0) {
 					operator.push('^');
 					displayUserCalculation();
 					break;
 				} else if (operator.length > 0 && (secondInput.length === 0 || secondInput[0] === '-')) {
-                    operator = ['^'];
-                    displayUserCalculation();
+					operator = ['^'];
+					displayUserCalculation();
 				} else {
-                    performCalculation();
+					performCalculation();
 					displayUserCalculation();
 					userInputDisplay.textContent += ` ^ `;
 					break;
-                }
+				}
 		}
 		// if (operator.length === 0) {
 		// 	operator.push(buttonValue);
@@ -380,16 +373,16 @@ let result = null;
 
 // Event listener for equals button
 equalsButton.addEventListener('click', () => {
-    if (secondInput.length === 0) {
-        firstInput = [removeLeadingZeros(firstInput.join(''))]
-        result = removeLeadingZeros(firstInput.join(''));
-        updateCalculationDisplay(result);
-        userInputDisplay.textContent = result;
-    } else {
-        firstInput = [removeLeadingZeros(firstInput.join(''))]
-        secondInput = [removeLeadingZeros(secondInput.join(''))]
-        performCalculation();
-    }
+	if (secondInput.length === 0) {
+		firstInput = [removeLeadingZeros(firstInput.join(''))]
+		result = removeLeadingZeros(firstInput.join(''));
+		updateCalculationDisplay(result);
+		userInputDisplay.textContent = result;
+	} else {
+		firstInput = [removeLeadingZeros(firstInput.join(''))]
+		secondInput = [removeLeadingZeros(secondInput.join(''))]
+		performCalculation();
+	}
 	operatorClicked = false;
 	debug();
 
@@ -416,103 +409,102 @@ let displayUserCalculation = () => {
 
 // Function to delete parts of the input
 deleteButton.addEventListener('click', () => {
-    operatorClicked = false;
-    if (firstInput.length > 0 && operator.length === 0) {
-        firstInput.pop()
-    } else if (firstInput.length > 0 && operator.length > 0 && secondInput.length === 0) {
-        operator.pop();
-    } else {
-        secondInput.pop();
-    }
-    displayUserCalculation();
-    debug();
+	operatorClicked = false;
+	if (firstInput.length > 0 && operator.length === 0) {
+		firstInput.pop()
+	} else if (firstInput.length > 0 && operator.length > 0 && secondInput.length === 0) {
+		operator.pop();
+	} else {
+		secondInput.pop();
+	}
+	displayUserCalculation();
+	debug();
 });
 
 document.addEventListener('keydown', (event) => {
-    const pressedKey = event.key;
-    console.log(pressedKey);
-    switch (pressedKey) {
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-        case '.':
-            simulateNumberClick(pressedKey);
-            break;
-        case 'x':
-        case '/':
-        case '-':
-        case '+':
-        case '*':
-            simulateOperatorClick(pressedKey);
-            break;
-        case '^':
-            simulateExponentClick(pressedKey);
-            break;
-        case 'Escape':
-        case 'Esc':
-            simulateClearClick(pressedKey);
-            break;
-        case 'Enter':
-        case '=':
-            simulateEqualsClick(pressedKey);
-            break;
-        case 'Backspace':
-            simulateDeleteClick(pressedKey);
-            break;
-    }
+	const pressedKey = event.key;
+	console.log(pressedKey);
+	switch (pressedKey) {
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		case '.':
+			simulateNumberClick(pressedKey);
+			break;
+		case 'x':
+		case '/':
+		case '-':
+		case '+':
+		case '*':
+			simulateOperatorClick(pressedKey);
+			break;
+		case '^':
+			simulateExponentClick(pressedKey);
+			break;
+		case 'Escape':
+		case 'Esc':
+			simulateClearClick(pressedKey);
+			break;
+		case 'Enter':
+		case '=':
+			simulateEqualsClick(pressedKey);
+			break;
+		case 'Backspace':
+			simulateDeleteClick(pressedKey);
+			break;
+	}
 });
 
 // Function to simulate backspace click
 
 let simulateDeleteClick = () => {
-    deleteButton.click();
+	deleteButton.click();
 }
 
 // Function to simulate a number click
 function simulateNumberClick(key) {
-    const buttons = document.querySelectorAll('.calculatorButton.numberMod');
-    for (const button of buttons) {
-        if (button.textContent.trim() === key) {
-            button.click();
-            break;
-        }
-    }
+	const buttons = document.querySelectorAll('.calculatorButton.numberMod');
+	for (const button of buttons) {
+		if (button.textContent.trim() === key) {
+			button.click();
+			break;
+		}
+	}
 }
 
 // Function to simulate an operator button click
 function simulateOperatorClick(key) {
-    const buttons = document.querySelectorAll('.operator');
-    for (const button of buttons) {
-        if (button.textContent.trim() === key || 
-        ((key === '*' && button.textContent.trim() === 'x'))) {
-            button.click();
-            break;
-        }
-    }
+	const buttons = document.querySelectorAll('.operator');
+	for (const button of buttons) {
+		if (button.textContent.trim() === key ||
+			((key === '*' && button.textContent.trim() === 'x'))) {
+			button.click();
+			break;
+		}
+	}
 }
 
 // Function to simulate a clear button click 
 function simulateClearClick(event) {
-    const clearButton = document.getElementById('clearButton');
-    clearButton.click();
+	const clearButton = document.getElementById('clearButton');
+	clearButton.click();
 }
 
 // Function to simulate an equals button click
 function simulateEqualsClick() {
-    const equalsButton = document.getElementById('equalsButton');
-    equalsButton.click();
+	const equalsButton = document.getElementById('equalsButton');
+	equalsButton.click();
 }
 
 // Function to simulate the exponent button click
 function simulateExponentClick() {
-    const exponentButton = document.getElementById('exponentButton');
-    exponentButton.click();
+	const exponentButton = document.getElementById('exponentButton');
+	exponentButton.click();
 }
-
