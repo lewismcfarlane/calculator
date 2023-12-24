@@ -8,7 +8,10 @@ const subtractionOperation = (a, b) => {
 };
 
 const divisionOperation = (a, b) => {
-	return a / b;
+    if (b !== 0) {
+        return a / b;
+    } else return;
+	
 };
 
 const multiplicationOperation = (a, b) => {
@@ -147,7 +150,11 @@ const performCalculation = () => {
         
 
     let whatUserTyped = `${firstInput.join('')} ${storedOperator} ${secondInput.join('')}`;
-    if (Number.isInteger(result)) {
+    if (isNaN(result)) {
+        let errorMessage = 'Cannot divide by zero'
+        updateCalculationDisplay(errorMessage);
+    }
+    else if (Number.isInteger(result)) {
 		result = result.toFixed(0);
         updateUserInputDisplay(whatUserTyped)
 		updateCalculationDisplay(result);
